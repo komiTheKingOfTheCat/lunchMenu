@@ -33,7 +33,7 @@
 
     button {
         font-family:'Nanum Gothic', Fallback, sans-serif;
-        font-size:1em;
+        font-size:1rem;
         font-weight:bold;
         border-style:none;
         color:#222222;
@@ -71,7 +71,7 @@
     div.footer {
         margin-top:1.5em;
         padding-bottom:3em;
-        font-size:0.75rem;
+        font-size:0.7rem;
         font-weight:bold;
         border-top:1px solid #777777;
     }
@@ -178,12 +178,18 @@
     }
 
     div.congratulations {
-        z-index:100;
+        font-weight:bolder;
+        padding:4em 0em;
     }
 
     span.resultMenuName {
-        font-weight: bolder;
-        color:red;
+        font-size:5rem;
+        text-shadow:0px 0px 10px #777777;
+        margin-bottom:0.5em;
+    }
+
+    span.happy_lunch {
+        font-size:1.5rem;
     }
 </style>
 
@@ -221,7 +227,9 @@
 
     <div class="layout main_container play hide">
         <div class="congratulations">
-            <span>오늘의 메뉴는 <span class="resultMenuName"></span> 입니다! 맛있게 드세요!</span>
+            <span class="resultMenuName"></span>
+            <br>
+            <span class="happy_lunch">맛있게 드세요!</span>
         </div>
         <div class="buttons">
             <button class="restart">다시하기</button>
