@@ -1,0 +1,408 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <link href="https://fonts.googleapis.com/css?family=Nanum+Gothic" rel="stylesheet">
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+
+    <title>오늘 점심 뭐 먹지</title>
+</head>
+
+<style>
+    body {
+        margin: 0px;
+        background:#DDDDDD;
+        color:#111111;
+        font-family:'Nanum Gothic', Fallback, sans-serif;
+        overflow-x:hidden;
+    }
+
+    body input {
+        font-family:'Nanum Gothic', Fallback, sans-serif;
+        color:#222222;
+        background: none;
+        border-style: none;
+        border-bottom: 1px solid #777777;
+    }
+
+    body button {
+        font-family:'Nanum Gothic', Fallback, sans-serif;
+        font-size:1em;
+        font-weight:bold;
+        border-style:none;
+        color:#222222;
+        background:#EEEEEE;
+        border-radius:1em;
+        cursor:pointer;
+    }    
+
+    hr {
+        width:70em;
+        border-bottom:#111111;
+    }
+
+    div.layout {
+        margin:0 auto;
+        text-align:center;
+    }
+
+    div.header {
+        padding:0.8em 0em;
+        font-size: 1.8rem;
+        font-weight:bold;
+    }
+
+    div.header p {
+        margin:0em;
+        font-weight:bold;
+    }
+
+    div.main_container {
+        text-align:center;
+        padding:1em;
+    }
+
+    div.footer {
+        margin-top:3em;
+        padding-bottom:3em;
+        font-size:0.8rem;
+        font-weight:bold;
+    }
+
+    div.footer .notice_ad {
+        margin:0.5em 0em;
+    }
+
+    div.footer .copyright {
+        margin:1em 0em;
+    }
+    
+    div.coupang_partners {
+        width:50em;
+        height:5em;
+        margin:0 auto;
+        margin-top:1em;
+        border:1px solid #EEEEEE;
+    }
+
+    div.coupang_partners iframe {
+        position:relative;
+        width:100%;
+        height:100%;
+    }
+
+    div.buttons {
+        text-align:center;
+    }
+
+    button.setRandomMenus {
+        display:inline-block;
+        border-style:none;
+        background:#FFFFFF;
+        width:10em;
+        height:3em;
+        border-radius:15px;
+        margin:0em 0.3em;
+    }
+
+    button.start, button.restart {
+        display:inline-block;
+        border-style:none;
+        background:#D2691E;
+        color:#EEEEEE;
+        width:10em;
+        height:3em;
+        border-radius:15px;
+        margin:0em 0.3em;
+    }
+
+    button.start:hover, button.restart:hover {
+        animation-duration:100ms;
+        animation-iteration-count: infinite;
+        animation-name:shake;
+    }
+
+    @keyframes shake {
+        0% { transform:rotateZ(0deg); }
+        25% { transform: rotateZ(1deg); }
+        75% { transform: rotateZ(-1deg); }
+        100% { transform: rotateZ(0deg); }
+    }
+
+    button.menu_count {
+        border-radius:50%;
+        width:2.5em;
+        height:2.5em;
+        margin:0em 1em;
+    }
+
+    button.menu_count:hover, button.setRandomMenus:hover {
+        color:#EEEEEE;
+        background:#222222;
+        transition-duration: 500ms;
+    }
+
+    button.menu_count.selected {
+        color:#EEEEEE;
+        background:#D2691E;
+    }
+
+    div.select_menu_count {
+        margin:0.5em 0em;
+    }
+
+    div.menu_input {
+        display:block;
+        margin:0 auto;
+        margin-bottom:2em;
+        text-align:center;
+    }
+
+    input.menu_name {
+        width:10em;
+        padding:0.5em 0em;
+        text-align:center;
+        display:block;
+        margin:1em auto;
+        margin-top:1em;
+    }
+
+    input.menu_name:focus { 
+        outline:none;
+    }
+
+    .hide {
+        display:none !important;
+    }
+
+    div.congratulations {
+        z-index:100;
+    }
+
+    span.resultMenuName {
+        font-weight: bolder;
+        color:red;
+    }
+</style>
+
+<body>
+    <div class="layout header">
+        <p>오늘 점심 뭐 먹지</p>
+    </div>
+
+    <div class="layout main_container ready">
+        <div class="select_menu_count">
+            <button class="menu_count" data-value="2">2</button>
+            <button class="menu_count" data-value="3">3</button>
+            <button class="menu_count" data-value="4">4</button>
+            <button class="menu_count selected" data-value="5">5</button>
+            <button class="menu_count" data-value="6">6</button>
+            <button class="menu_count" data-value="7">7</button>
+        </div>
+        <br>
+        <p>입력하지 않은 칸이 있다면, 자동으로 랜덤메뉴로 설정 후 시작해요.</p>
+        <div class="menu_input">
+            <input type="text" class="menu_name" data-value="2" maxlength="10" placeholder="1번 메뉴"/>
+            <input type="text" class="menu_name" data-value="2" maxlength="10" placeholder="2번 메뉴"/>
+            <input type="text" class="menu_name" data-value="3" maxlength="10" placeholder="3번 메뉴"/>
+            <input type="text" class="menu_name" data-value="4" maxlength="10" placeholder="4번 메뉴"/>
+            <input type="text" class="menu_name" data-value="5" maxlength="10" placeholder="5번 메뉴"/>
+            <input type="text" class="menu_name hide" data-value="6" maxlength="10" placeholder="6번 메뉴"/>
+            <input type="text" class="menu_name hide" data-value="7" maxlength="10" placeholder="7번 메뉴"/>
+        </div>
+        <div class="buttons">
+            <button class="setRandomMenus">랜덤메뉴 <span class="currentMenuCount">5</span>개 뽑기</button>
+            <button class="start">시작하기</button>
+        </div>
+    </div>
+
+    <div class="layout main_container play hide">
+        <div class="congratulations">
+            <p>오늘의 메뉴는 <span class="resultMenuName"></span> 입니다! 맛있게 드세요!</p>
+        </div>
+        <div class="buttons">
+            <button class="restart">다시하기</button>
+        </div>
+    </div>
+
+    <div class="coupang_partners">
+        <iframe src="https://ads-partners.coupang.com/widgets.html?id=724986&template=carousel&trackingCode=AF5582803&subId=&width=680&height=140&tsource=" frameborder="0" scrolling="no" referrerpolicy="unsafe-url"></iframe>
+    </div>
+
+    <div class="layout footer">
+        <hr><br>
+        <p class="notice_ad">노출되는 광고는 쿠팡 파트너스 활동의 일환으로, 이에 따른 일정액의 수수료를 제공받습니다.</p>
+        <p class="copyright">© 2023. 이직에 실패한 광기의 백수 - 이광백&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;All Rights Reserved.</p>
+    </div>
+</body>
+</html>
+
+<script>
+    // 혹시 개발자도구를 켜서 여기를 보고계신 분이 계시다면 대충 수정해서... 입맛따라쓰세요...
+    // 쿠팡광고도 눌러주시고요.... 광백이도 밥먹고싶어여..
+    var _randomMenuList = 
+    [
+        "중국집", 
+        "순대국밥", 
+        "쌀국수", 
+        "분식", 
+        "칼국수", 
+        "설렁탕", 
+        "제육볶음",
+        "샌드위치", 
+        "구내식당", 
+        "매운탕", 
+        "라면 + 김밥", 
+        "감자탕", 
+        "부대찌개",
+        "생선구이",
+        "돈까스"
+    ];
+
+    var _usedRandomMenuIndex = [];
+    var _targetMenuList = [];
+
+    $(function(){
+        bindEvents();
+    });
+
+    function bindEvents()
+    {
+        $("button.menu_count").on("click", function(){
+            removeStatusSelected();
+            $(this).addClass("selected");
+
+            var menuCount = $(this).data("value");
+            var elements = $("input.menu_name");
+            for (var ii = 0; ii < elements.length; ++ii)
+            {
+                if (menuCount < elements.eq(ii).data("value"))
+                {
+                    elements.eq(ii).val("");
+                    elements.eq(ii).addClass("hide");
+                    continue;
+                }
+
+                elements.eq(ii).removeClass("hide");
+            }
+
+            $("span.currentMenuCount").html(menuCount);
+        });
+
+        $("button.start").on("click", function(){
+            var resultMenuName = getResult();
+            $("span.resultMenuName").html(resultMenuName);
+
+            $(".main_container.ready").addClass("hide");
+            $(".main_container.play").removeClass("hide");
+        });
+
+        $("button.restart").on("click", function(){
+            reset();
+
+            $(".main_container.play").addClass("hide");
+            $(".main_container.ready").removeClass("hide");
+        });
+
+        $("button.setRandomMenus").on("click", function(){
+            var elements = $("input.menu_name");
+            for(var ii = 0; ii < elements.length; ++ii)
+            {
+                if(true == elements.eq(ii).hasClass('hide'))
+                {
+                    continue;
+                }
+
+                var randomMenuName = getRandomMenu(); 
+                elements.eq(ii).val(randomMenuName);
+            }
+        });
+    }
+
+    function removeStatusSelected()
+    {
+        $("button.menu_count").each(function(){
+            $(this).removeClass("selected");
+        });
+    }
+
+    // 랜덤메뉴
+    function getRandomMenu()
+    {
+        var isValid = false;
+        var index = 0;
+
+        while(false == isValid)
+        {
+            index = getRandomNumberInRange(0, _randomMenuList.length - 1);
+
+            if(_usedRandomMenuIndex.length == _randomMenuList.length)
+            {
+                _usedRandomMenuIndex = [];
+                isValid = false;
+                continue;
+            }
+
+            if(0 == _usedRandomMenuIndex.length || false == _usedRandomMenuIndex.includes(index))
+            {
+                _usedRandomMenuIndex.push(index);
+                isValid = true;
+            }
+        }
+        
+        return _randomMenuList[index];
+    }
+    
+    // 뽑기결과
+    function getResult()
+    {
+        _targetMenuList = [];
+
+        $("input.menu_name").each(function()
+        {    
+            if(true == $(this).hasClass("hide")) 
+            {
+                return false;
+            }
+            
+            var inputMenuName = $(this).val().trim();
+            if(0 == inputMenuName.length)
+            {
+                var randomMenuName = getRandomMenu();
+                _targetMenuList.push(randomMenuName);
+                return true;
+            }
+
+            _targetMenuList.push(inputMenuName);
+            return true;
+        });
+
+        var targetIndex = getRandomNumberInRange(0, _targetMenuList.length - 1);
+        var result = _targetMenuList[targetIndex];
+
+        return result;
+    }
+
+    // 리셋
+    function reset()
+    {
+        _usedRandomMenuIndex = [];
+        _targetMenuList = [];
+
+        $("input.menu_name").each(function(){
+            $(this).val("");
+        });
+
+        $("span.resultMenuName").html("");
+    }
+
+    // 지정범위내 랜덤수 뽑기
+    function getRandomNumberInRange(min, max)
+    {
+        var result = Math.round((Math.random() * (max - min))) + min;
+        return result;
+    }
+</script>
