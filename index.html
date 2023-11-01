@@ -13,22 +13,25 @@
 
 <style>
     body {
-        margin: 0px;
+        margin:0 auto;
         background:#DDDDDD;
         color:#111111;
         font-family:'Nanum Gothic', Fallback, sans-serif;
-        overflow-x:hidden;
+        font-weight:bold;
+        text-align:center;
+        width:fit-content;
     }
 
-    body input {
+    input {
         font-family:'Nanum Gothic', Fallback, sans-serif;
+        font-weight:bold;
         color:#222222;
         background: none;
         border-style: none;
         border-bottom: 1px solid #777777;
     }
 
-    body button {
+    button {
         font-family:'Nanum Gothic', Fallback, sans-serif;
         font-size:1em;
         font-weight:bold;
@@ -37,39 +40,40 @@
         background:#EEEEEE;
         border-radius:1em;
         cursor:pointer;
-    }    
-
-    hr {
-        width:70em;
-        border-bottom:#111111;
     }
 
+    span {
+        display:inline-block;
+        font-weight:bold;
+    }
+
+    .hide {
+        display:none !important;
+    }
+
+
     div.layout {
+        display:block;
         margin:0 auto;
         text-align:center;
     }
 
     div.header {
-        padding:0.8em 0em;
+        padding-top:1.5em;
         font-size: 1.8rem;
         font-weight:bold;
     }
 
-    div.header p {
-        margin:0em;
-        font-weight:bold;
-    }
-
     div.main_container {
-        text-align:center;
-        padding:1em;
+        padding:1.5em 0em;
     }
 
     div.footer {
-        margin-top:3em;
+        margin-top:1.5em;
         padding-bottom:3em;
-        font-size:0.8rem;
+        font-size:0.75rem;
         font-weight:bold;
+        border-top:1px solid #777777;
     }
 
     div.footer .notice_ad {
@@ -105,7 +109,7 @@
         width:10em;
         height:3em;
         border-radius:15px;
-        margin:0em 0.3em;
+        margin:0.3em;
     }
 
     button.start, button.restart {
@@ -116,7 +120,7 @@
         width:10em;
         height:3em;
         border-radius:15px;
-        margin:0em 0.3em;
+        margin:0.3em;
     }
 
     button.start:hover, button.restart:hover {
@@ -136,7 +140,7 @@
         border-radius:50%;
         width:2.5em;
         height:2.5em;
-        margin:0em 1em;
+        margin:0em 0.3em;
     }
 
     button.menu_count:hover, button.setRandomMenus:hover {
@@ -174,10 +178,6 @@
         outline:none;
     }
 
-    .hide {
-        display:none !important;
-    }
-
     div.congratulations {
         z-index:100;
     }
@@ -190,7 +190,8 @@
 
 <body>
     <div class="layout header">
-        <p>오늘 점심 뭐 먹지</p>
+        <span>오늘 점심 뭐 먹지</span>
+        <span class="hide">이직에 실패한 광기의 백수, 이광백 | 점심메뉴 추첨기</span>
     </div>
 
     <div class="layout main_container ready">
@@ -203,7 +204,7 @@
             <button class="menu_count" data-value="7">7</button>
         </div>
         <br>
-        <p>입력하지 않은 칸이 있다면, 자동으로 랜덤메뉴로 설정 후 시작해요.</p>
+        <span class="guide">입력하지 않은 칸은 랜덤메뉴로 설정 후 시작해요.</span>
         <div class="menu_input">
             <input type="text" class="menu_name" data-value="2" maxlength="10" placeholder="1번 메뉴"/>
             <input type="text" class="menu_name" data-value="2" maxlength="10" placeholder="2번 메뉴"/>
@@ -221,45 +222,49 @@
 
     <div class="layout main_container play hide">
         <div class="congratulations">
-            <p>오늘의 메뉴는 <span class="resultMenuName"></span> 입니다! 맛있게 드세요!</p>
+            <span>오늘의 메뉴는 <span class="resultMenuName"></span> 입니다! 맛있게 드세요!</span>
         </div>
         <div class="buttons">
             <button class="restart">다시하기</button>
         </div>
     </div>
 
-    <div class="coupang_partners">
-        <iframe src="https://ads-partners.coupang.com/widgets.html?id=724986&template=carousel&trackingCode=AF5582803&subId=&width=680&height=140&tsource=" frameborder="0" scrolling="no" referrerpolicy="unsafe-url"></iframe>
-    </div>
-
     <div class="layout footer">
-        <hr><br>
-        <p class="notice_ad">노출되는 광고는 쿠팡 파트너스 활동의 일환으로, 이에 따른 일정액의 수수료를 제공받습니다.</p>
-        <p class="copyright">© 2023. 이직에 실패한 광기의 백수 - 이광백&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;All Rights Reserved.</p>
+        <div class="coupang_partners">
+            <iframe src="https://ads-partners.coupang.com/widgets.html?id=724986&template=carousel&trackingCode=AF5582803&subId=&width=680&height=140&tsource=" frameborder="0" scrolling="no" referrerpolicy="unsafe-url"></iframe>
+        </div>
+        <br>
+        <span class="notice_ad">노출되는 광고는 쿠팡 파트너스 활동의 일환으로, 이에 따른 일정액의 수수료를 제공받습니다.</span>
+        <br>
+        <span class="copyright">© 2023. 이직에 실패한 광기의 백수 - 이광백&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;All Rights Reserved.</span>
     </div>
 </body>
 </html>
 
 <script>
     // 혹시 개발자도구를 켜서 여기를 보고계신 분이 계시다면 대충 수정해서... 입맛따라쓰세요...
-    // 쿠팡광고도 눌러주시고요.... 광백이도 밥먹고싶어여..
+    // 쿠팡광고도 눌러주시고요.... 감사합니다...
     var _randomMenuList = 
     [
         "중국집", 
         "순대국밥", 
         "쌀국수", 
-        "분식", 
+        "떡볶이", 
         "칼국수", 
         "설렁탕", 
         "제육볶음",
         "샌드위치", 
         "구내식당", 
         "매운탕", 
-        "라면 + 김밥", 
+        "라면", 
         "감자탕", 
         "부대찌개",
         "생선구이",
-        "돈까스"
+        "돈까스",
+        "육쌈냉면",
+        "편의점 도시락",
+        "김밥",
+        "파스타"
     ];
 
     var _usedRandomMenuIndex = [];
